@@ -1,0 +1,323 @@
+/* Calculator + CPU scheduler — ported from FinalOS (light tool UIs) */
+
+.calculator-page {
+  background: #e6f0ff;
+  color: #1a3d7c;
+  min-height: min(70vh, 640px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: var(--font-geist-sans), "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.calculator-page .calculator-container {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(26, 61, 124, 0.2);
+  padding: 20px;
+  max-width: 320px;
+  width: 100%;
+}
+
+.calculator-page h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.calculator-page #display {
+  width: 100%;
+  height: 50px;
+  font-size: 1.8rem;
+  text-align: right;
+  padding: 10px 15px;
+  border: 2px solid #a3c0ff;
+  border-radius: 10px;
+  background: #d9e6ff;
+  color: #1a3d7c;
+  margin-bottom: 20px;
+  user-select: none;
+}
+
+.calculator-page .buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.calculator-page .btn {
+  background-color: #5390ff;
+  border: none;
+  border-radius: 10px;
+  padding: 18px 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.calculator-page .btn:hover {
+  background-color: #1a3d7c;
+}
+
+.calculator-page .equal {
+  grid-column: 4 / 5;
+  grid-row: 4 / 6;
+  background-color: #2a65f7;
+}
+
+.calculator-page .equal:hover {
+  background-color: #1843a6;
+}
+
+.calculator-page .zero {
+  grid-column: 1 / 3;
+}
+
+@media (max-width: 400px) {
+  .calculator-page #display {
+    font-size: 1.5rem;
+    height: 45px;
+  }
+
+  .calculator-page .btn {
+    padding: 15px 0;
+    font-size: 1.1rem;
+  }
+}
+
+@keyframes fadeInCpu {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cpu-page {
+  background: linear-gradient(135deg, #e6f0ff, #d7e4ff);
+  color: #1a3d7c;
+  min-height: min(85vh, 900px);
+  padding: 30px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: var(--font-geist-sans), "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cpu-page .container {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 30px 35px;
+  border-radius: 16px;
+  max-width: 960px;
+  width: 100%;
+  box-shadow: 0 8px 25px rgba(26, 61, 124, 0.2);
+  border: 1px solid rgba(26, 61, 124, 0.15);
+  animation: fadeInCpu 0.8s ease;
+}
+
+.cpu-page h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #15326a;
+  letter-spacing: 0.5px;
+}
+
+.cpu-page .input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  justify-content: center;
+}
+
+.cpu-page .input-group input {
+  flex: 1 1 140px;
+  padding: 12px 15px;
+  border: 2px solid #a3c0ff;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #1a3d7c;
+  background: #dfe8ff;
+  transition: 0.3s ease;
+  box-shadow: 0 2px 5px rgba(26, 61, 124, 0.1);
+}
+
+.cpu-page .input-group input:focus {
+  border-color: #4a78f8;
+  outline: none;
+  background: #e8efff;
+  box-shadow: 0 0 10px rgba(74, 120, 248, 0.4);
+}
+
+.cpu-page .btn {
+  cursor: pointer;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  padding: 10px 22px;
+  font-size: 1rem;
+  color: white;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 10px rgba(26, 61, 124, 0.15);
+}
+
+.cpu-page .add-btn {
+  background: linear-gradient(135deg, #5390ff, #3a72e6);
+}
+.cpu-page .add-btn:hover {
+  background: #1a3d7c;
+  transform: translateY(-2px);
+}
+
+.cpu-page .clear-btn {
+  background: linear-gradient(135deg, #f44336, #d92c21);
+}
+.cpu-page .clear-btn:hover {
+  background: #ba000d;
+  transform: translateY(-2px);
+}
+
+.cpu-page .calculate-btn {
+  background: linear-gradient(135deg, #2a65f7, #204fc4);
+  display: block;
+  margin: 25px auto 45px;
+  padding: 14px 45px;
+  border-radius: 14px;
+  font-size: 1.25rem;
+}
+.cpu-page .calculate-btn:hover {
+  background: #143a95;
+  transform: translateY(-2px);
+}
+
+.cpu-page table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(26, 61, 124, 0.15);
+}
+
+.cpu-page thead {
+  background: linear-gradient(135deg, #8db4ff, #6b97f0);
+  color: white;
+}
+
+.cpu-page th,
+.cpu-page td {
+  text-align: center;
+  padding: 14px 12px;
+  border-bottom: 1px solid #b2ccff;
+  background: #ffffff;
+}
+
+.cpu-page thead th {
+  font-size: 1.05rem;
+}
+
+.cpu-page tr:nth-child(even) td {
+  background: #f2f6ff;
+}
+
+.cpu-page .no-processes {
+  font-style: italic;
+  color: #6278a0;
+}
+
+.cpu-page .action-btn {
+  background: #ff4f45;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 2px 6px rgba(26, 61, 124, 0.15);
+}
+.cpu-page .action-btn:hover {
+  background: #c80000;
+  transform: scale(1.05);
+}
+
+.cpu-page .gantt-chart {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 12px 12px;
+  border: 2px solid #a3c0ff;
+  border-radius: 14px;
+  min-height: 70px;
+  background: #dfe8ff;
+  font-weight: 700;
+  color: #1a3d7c;
+  box-shadow: 0 4px 10px rgba(26, 61, 124, 0.1);
+}
+
+.cpu-page .gantt-block {
+  background: linear-gradient(135deg, #7da8ff, #5d8cf5);
+  border-radius: 8px;
+  padding: 12px 10px;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  box-shadow: 0 3px 8px rgba(26, 61, 124, 0.25);
+  transition: transform 0.2s;
+  min-width: 70px;
+}
+
+.cpu-page .gantt-block:hover {
+  transform: scale(1.04);
+}
+
+.cpu-page .gantt-time {
+  font-size: 0.82rem;
+  color: #0d2247;
+  margin-top: 4px;
+}
+
+.cpu-page .metrics {
+  text-align: center;
+  font-size: 1rem;
+  color: #1843a6;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .cpu-page .input-group {
+    flex-direction: column;
+  }
+
+  .cpu-page .input-group input,
+  .cpu-page .btn {
+    width: 100%;
+  }
+
+  .cpu-page th,
+  .cpu-page td {
+    font-size: 0.9rem;
+    padding: 9px 6px;
+  }
+
+  .cpu-page .calculate-btn {
+    font-size: 1.1rem;
+    padding: 12px 25px;
+  }
+
+  .cpu-page .gantt-block {
+    min-width: 60px;
+  }
+}
