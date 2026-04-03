@@ -29,7 +29,6 @@ export function HomeHeroSection() {
           isReady ? "opacity-100" : "opacity-0"
         }`}
       >
-        {/* Profile card — layered pastel block + white card (matches reference) */}
         <div
           className={`relative w-full max-w-[300px] transition-[transform,opacity] duration-[900ms] ease-out md:max-w-[320px] ${
             isReady ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
