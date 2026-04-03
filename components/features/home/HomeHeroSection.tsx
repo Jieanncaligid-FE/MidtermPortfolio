@@ -11,7 +11,7 @@ const socials = [
   { href: "https://www.facebook.com/ayumi.zain.5", label: "Facebook", Icon: Facebook },
   { href: "https://www.instagram.com/jieanncaligid", label: "Instagram", Icon: Instagram },
   { href: "https://github.com/Jieanncaligid-FE", label: "GitHub", Icon: Github },
-  { href: "https://www.linkedin.com/in/yourusername", label: "LinkedIn", Icon: Linkedin },
+  { href: "https://www.linkedin.com/in/jie-ann-caligid-33b67039b/", label: "LinkedIn", Icon: Linkedin },
 ];
 
 export function HomeHeroSection() {
